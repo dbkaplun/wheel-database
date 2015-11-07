@@ -1,0 +1,25 @@
+{
+  "name": "wheel-database",
+  "version": "1.0.0",
+  "description": "Wheel database",
+  "main": "index.html",
+  "scripts": {
+    "fetch": "./fetch.js > wheels.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbkaplun/wheel-database.git"
+  },
+  "author": "Dan Kaplun <dbkaplun@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbkaplun/wheel-database/issues"
+  },
+  "homepage": "https://github.com/dbkaplun/wheel-database#readme",
+  "devDependencies": {
+    "bluebird": "^3.0.5",
+    "nightmare": "^2.0.7",
+    "vo": "^1.0.3"
+  }
+}
