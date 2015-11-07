@@ -1,0 +1,24 @@
+@import "https://raw.githubusercontent.com/twbs/bootstrap/v3.3.5/less/bootstrap.less";
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  .reactable-filter-input { &:extend(.form-control); }
+
+  th.reactable-header-sortable {
+    cursor: pointer;
+    &.reactable-header-sort-desc, &.reactable-header-sort-asc {
+      // &:extend(.table>thead>tr>th.active);
+      // .table-row-variant(active; @table-bg-active);
+      background: @table-bg-active;
+
+      &:after { margin-left: 5px; }
+      &.reactable-header-sort-asc:after  { content: '\25BC'; }
+      &.reactable-header-sort-desc:after { content: '\25B2'; }
+    }
+  }
+
+  .reactable-page-button, .reactable-previous-page, .reactable-next-page { &:extend(.pagination>li>a); }
+  .reactable-current-page { &:extend(.pagination>.active>a); }
+}
