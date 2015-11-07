@@ -17,7 +17,11 @@
           React.render(
             <div>
               <small>Last updated: {data.lastUpdate}</small>
-              <Table className="table table-condensed" data={data.wheels} filterable={props} sortable={true} itemsPerPage={100} pageButtonLimit={5} />
+              <Table className="table table-condensed"
+                data={data.wheels}
+                filterable={props}
+                sortable={true} defaultSort={{column: 'weightLbs', direction: 'asc'}}
+                itemsPerPage={100} pageButtonLimit={5} />
             </div>,
             document.getElementById('wheel-database')
           );
