@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Wheel database</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://glittershark.github.io/reactable/stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://glittershark.github.io/reactable/stylesheets/table.css">
+  </head>
+
+  <body id="main_content_wrap">
+    <h1>Wheel database &bull; <a href="https://github.com/dbkaplun/wheel-database">(code, &#9733; on Github)</a></h1>
+    <main id="demo-table">
+      <script type="text/babel">
+        var Table = Reactable.Table;
+        $.get('wheels.json').then(function (data) {
+          var props = Object.keys(data.wheels[0]);
+          React.render(
+            <div>
+              <small>Last updated: {data.lastUpdate}</small>
+              <Table data={data.wheels} sortable filterable={props} />
+            </div>,
+            document.getElementById('demo-table')
+          );
+        });
+      </script>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reactable/0.11.5/reactable.min.js"></script>
+  </body>
+</html>
