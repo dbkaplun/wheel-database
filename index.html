@@ -12,6 +12,9 @@
     <main id="wheel-database">
       <script type="text/babel">
         var Table = Reactable.Table;
+        var Thead = Reactable.Thead;
+        var Th = Reactable.Th;
+
         $.get('wheels.json').then(function (data) {
           var props = Object.keys(data.wheels[0]);
           React.render(
@@ -21,7 +24,23 @@
                 data={data.wheels}
                 filterable={props}
                 sortable={true} defaultSort={{column: 'weightLbs', direction: 'asc'}}
-                itemsPerPage={100} pageButtonLimit={5} />
+                itemsPerPage={100} pageButtonLimit={5}>
+                <Thead>
+                  <Th column="name"><span className="name-header">Name</span></Th>
+                  <Th column="mfgMethod">
+                    <span className="mfgMethod-header">Manufacturing Method</span>
+                  </Th>
+                  <Th column="diameterInches">
+                    <span className="diameterInches-header">Diameter (in.)</span>
+                  </Th>
+                  <Th column="widthInches">
+                    <span className="widthInches-header">Width (in.)</span>
+                  </Th>
+                  <Th column="weightLbs">
+                    <span className="weightLbs-header">Weight (lbs.)</span>
+                  </Th>
+                </Thead>
+              </Table>
             </div>,
             document.getElementById('wheel-database')
           );
@@ -31,7 +50,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
+    <script src="https://fb.me/react-0.14.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reactable/0.11.5/reactable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
   </body>
