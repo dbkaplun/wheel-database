@@ -75,7 +75,7 @@
                 {this.state.lastUpdate ? <small>Last updated: {this.state.lastUpdate.toString()}</small> : ''}
                 <Table className="table table-condensed"
                   data={this.getVisibleWheels()}
-                  filterable={true}
+                  filterable={Object.keys(this.state.wheelOptions)}
                   sortable={true} defaultSort={{column: 'weightLbs', direction: 'asc'}}
                   itemsPerPage={100} pageButtonLimit={5}>
                   <Thead>
