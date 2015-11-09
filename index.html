@@ -14,7 +14,7 @@
         var WheelDatabase = React.createClass({
           getInitialState: function () {
             return {
-              data: {wheels: [], lastUpdate: "never"},
+              wheels: [],
               wheelOptions: {},
               selectedWheelOptions: {}
             };
@@ -27,6 +27,7 @@
               cache: false
             })
               .success(function (data) {
+                var lastUpdate = new Date(data.lastUpdate);
                 var wheelOptionsObjs = data.wheels.reduce(function (wheelOptionsObjs, wheel) {
                   $.each(wheel, function (prop, val) {
                     if (!(prop in wheelOptionsObjs)) wheelOptionsObjs[prop] = {};
@@ -35,7 +36,8 @@
                   return wheelOptionsObjs;
                 }, {});
                 self.setState({
-                  data: data,
+                  wheels: data.wheels,
+                  lastUpdate: isNaN(lastUpdate) ? null : lastUpdate,
                   wheelOptions: Object.keys(wheelOptionsObjs).reduce(function (wheelOptions, option) {
                     var wheelOptionObj = wheelOptionsObjs[option];
                     var wheelOption = Object.keys(wheelOptionObj);
@@ -50,7 +52,7 @@
           },
           getVisibleWheels: function () {
             var self = this;
-            return self.state.data.wheels.filter(function (wheel) {
+            return self.state.wheels.filter(function (wheel) {
               return Object.keys(self.state.selectedWheelOptions).every(function (prop) {
                 var selectedWheelOption = self.state.selectedWheelOptions[prop];
                 return !selectedWheelOption || wheel[prop].toString() === selectedWheelOption;
@@ -70,7 +72,7 @@
             var Th = Reactable.Th;
             return (
               <div>
-                <small>Last updated: {this.state.data.lastUpdate}</small>
+                {this.state.lastUpdate ? <small>Last updated: {this.state.lastUpdate}</small> : ''}
                 <Table className="table table-condensed"
                   data={this.getVisibleWheels()}
                   filterable={true}
