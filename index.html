@@ -53,11 +53,6 @@
               });
             });
           },
-          getUnselectedWheelOptions: function () {
-            var self = this;
-            console.log('all', self.state.wheelOptions, 'selected', self.state.selectedWheelOptions);
-            return Object.keys(self.state.wheelOptions).filter(function (prop) { return !self.state.selectedWheelOptions[prop]; });
-          },
 
           stopPropagation: function (evt) { evt.stopPropagation(); },
           selectChanged: function (evt) {
@@ -74,8 +69,8 @@
                 <small>Last updated: {this.state.data.lastUpdate}</small>
                 <Table className="table table-condensed"
                   data={this.getVisibleWheels()}
-                  filterable={Object.keys(this.state.wheelOptions)}
-                  sortable={this.getUnselectedWheelOptions()} defaultSort={{column: 'weightLbs', direction: 'asc'}}
+                  filterable={true}
+                  sortable={true} defaultSort={{column: 'weightLbs', direction: 'asc'}}
                   itemsPerPage={100} pageButtonLimit={5}>
                   <Thead>
                     <Th column="name"><span className="name-header">Name</span></Th>
