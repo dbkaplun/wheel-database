@@ -73,3 +73,5 @@ function trim (str) {
 if (require.main === module) getWheelDatabase()
   .then(function (wheels) { return JSON.stringify(wheels, null, '  '); })
   .then(console.log);
+
+module.exports = getWheelDatabase;

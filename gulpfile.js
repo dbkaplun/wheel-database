@@ -6,10 +6,20 @@ var reactify = require('reactify');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
 var flatten = require('gulp-flatten');
+var Promise = require('bluebird');
 
 var path = require('path');
+var fs = Promise.promisifyAll(require('fs'));
+
+var fetch = require('./fetch');
 
 var dist = 'dist/';
+
+gulp.task('fetch', function (cb) {
+  fetch()
+    .then(function (wheels) { return fs.writeFileAsync('wheels.json', JSON.stringify(wheels, null, '  ')+'\n'); })
+    .done(cb.bind(null, null), cb);
+});
 
 gulp.task('build-js', function () {
   gulp.src('index.jsx')
@@ -29,4 +39,4 @@ gulp.task('build-less', ['build-fonts'], function () {
 });
 gulp.task('build', ['build-js', 'build-less', 'build-fonts']);
 
-gulp.task('default', ['build']);
+gulp.task('default', ['fetch', 'build']);
