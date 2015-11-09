@@ -72,7 +72,7 @@
             var Th = Reactable.Th;
             return (
               <div>
-                {this.state.lastUpdate ? <small>Last updated: {this.state.lastUpdate}</small> : ''}
+                {this.state.lastUpdate ? <small>Last updated: {this.state.lastUpdate.toString()}</small> : ''}
                 <Table className="table table-condensed"
                   data={this.getVisibleWheels()}
                   filterable={true}
