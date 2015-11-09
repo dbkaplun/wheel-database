@@ -30,14 +30,18 @@
                 var wheelOptionsObjs = data.wheels.reduce(function (wheelOptionsObjs, wheel) {
                   $.each(wheel, function (prop, val) {
                     if (!(prop in wheelOptionsObjs)) wheelOptionsObjs[prop] = {};
-                    wheelOptionsObjs[prop][val] = true;
+                    wheelOptionsObjs[prop][val] = typeof val;
                   });
                   return wheelOptionsObjs;
                 }, {});
                 self.setState({
                   data: data,
                   wheelOptions: Object.keys(wheelOptionsObjs).reduce(function (wheelOptions, option) {
-                    wheelOptions[option] = Object.keys(wheelOptionsObjs[option]);
+                    var wheelOptionObj = wheelOptionsObjs[option];
+                    var wheelOption = Object.keys(wheelOptionObj);
+                    wheelOptions[option] = wheelOptionObj[wheelOption[0]] === 'number'
+                      ? wheelOption.sort(function (a, b) { return Number(a) - Number(b); })
+                      : wheelOption.sort();
                     return wheelOptions;
                   }, {})
                 });
