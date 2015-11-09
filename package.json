@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "build": "gulp",
+    "watch": "gulp watch",
     "fetch": "gulp fetch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,17 +22,22 @@
   "devDependencies": {
     "bluebird": "^3.0.5",
     "bootstrap": "^3.3.5",
+    "cssnano": "^3.3.2",
     "gulp": "^3.9.0",
-    "gulp-browserify": "^0.5.1",
     "gulp-flatten": "^0.2.0",
     "gulp-less": "^3.0.3",
-    "gulp-rename": "^1.2.2",
+    "gulp-postcss": "^6.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.2",
     "jquery": "^2.1.4",
     "nightmare": "^2.0.7",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "reactable": "^0.11.5",
     "reactify": "^1.1.1",
-    "vo": "^1.0.3"
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "vo": "^1.0.3",
+    "watchify": "^3.6.0"
   }
 }
