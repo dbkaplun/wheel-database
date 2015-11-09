@@ -33,7 +33,7 @@
     "nightmare": "^2.0.7",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
-    "reactable": "^0.11.5",
+    "reactable": "^0.12.0",
     "reactify": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
