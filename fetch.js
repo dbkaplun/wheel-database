@@ -4,6 +4,11 @@ var Nightmare = require('nightmare');
 var Promise = require('bluebird');
 var vo = require('vo');
 
+trim.surroundingWhitespaceRegex = /^\s+|\s+$/g;
+function trim (str) {
+  return str.replace(trim.surroundingWhitespaceRegex, '');
+}
+
 var fetchAndysAutoSport = Promise.promisify(vo(function* () {
   var nightmare = Nightmare();
   var table = yield nightmare
@@ -23,10 +28,10 @@ fetchAndysAutoSport.url = 'http://www.andysautosport.com/learning_center/buyers_
 fetchAndysAutoSport.tableSelector = 'table';
 
 
-getWheelDatabase.lastUpdateRegex = /^LAST UPDATE:\s*(\S+)/;
-getWheelDatabase.kgToLbs = 2.20462;
-getWheelDatabase.kgToLbsEpsilon = .0001;
-function getWheelDatabase () {
+fetchWheelDatabase.lastUpdateRegex = /^LAST UPDATE:\s*(\S+)/;
+fetchWheelDatabase.kgToLbs = 2.20462;
+fetchWheelDatabase.kgToLbsEpsilon = .0001;
+function fetchWheelDatabase () {
   var header;
   return fetchAndysAutoSport().then(function (rows) {
     return rows.reduce(function (result, row, i) {
@@ -48,11 +53,11 @@ function getWheelDatabase () {
           }
           return wheel;
         }, {});
-        if (Math.abs(wheel.weightLbs - (wheel.weightKg * getWheelDatabase.kgToLbs)) > getWheelDatabase.kgToLbsEpsilon) throw new Error("wheel lbs ("+wheel.weightLb+") and kg ("+wheel.weightKg+") don't match");
+        if (Math.abs(wheel.weightLbs - (wheel.weightKg * fetchWheelDatabase.kgToLbs)) > fetchWheelDatabase.kgToLbsEpsilon) throw new Error("wheel lbs ("+wheel.weightLb+") and kg ("+wheel.weightKg+") don't match");
         delete wheel.weightKg; // redundant
         result.wheels.push(wheel);
       } else if (row.some(Boolean)) {
-        var match = row[0].match(getWheelDatabase.lastUpdateRegex);
+        var match = row[0].match(fetchWheelDatabase.lastUpdateRegex);
         if (match) result.lastUpdate = new Date(match[1]);
         else throw new Error("unknown row: "+JSON.stringify(row));
       }
@@ -65,13 +70,8 @@ function getWheelDatabase () {
   });
 }
 
-trim.surroundingWhitespaceRegex = /^\s+|\s+$/g;
-function trim (str) {
-  return str.replace(trim.surroundingWhitespaceRegex, '');
-}
-
-if (require.main === module) getWheelDatabase()
+if (require.main === module) fetchWheelDatabase()
   .then(function (wheels) { return JSON.stringify(wheels, null, '  '); })
   .then(console.log);
 
-module.exports = getWheelDatabase;
+module.exports = fetchWheelDatabase;
