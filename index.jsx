@@ -42,14 +42,23 @@ var WheelDatabase = React.createClass({
       })
       .error(function(xhr, status, err) { console.error(self.props.url, status, err.toString()); });
   },
-  getVisibleWheels: function () {
+  renderWheels: function () {
     var self = this;
-    return self.state.wheels.filter(function (wheel) {
-      return Object.keys(self.state.selectedWheelOptions).every(function (prop) {
+    return self.state.wheels.reduce(function (wheels, wheel) {
+      if (Object.keys(self.state.selectedWheelOptions).every(function (prop) {
         var selectedWheelOption = self.state.selectedWheelOptions[prop];
         return !selectedWheelOption || wheel[prop].toString() === selectedWheelOption;
-      });
-    });
+      })) {
+        wheels.push(Object.keys(wheel).reduce(function (renderedWheel, prop) {
+          var val = wheel[prop];
+          if (prop.match(/Inches$/)) renderedWheel[prop] = val + " in.";
+          else if (prop.match(/Lbs$/)) renderedWheel[prop] = val + " lbs.";
+          else renderedWheel[prop] = val;
+          return renderedWheel;
+        }, {}));
+      }
+      return wheels;
+    }, []);
   },
 
   stopPropagation: function (evt) { evt.stopPropagation(); },
@@ -65,7 +74,7 @@ var WheelDatabase = React.createClass({
     return (
       <div>
         <Table className="table table-condensed"
-          data={this.getVisibleWheels()}
+          data={this.renderWheels()}
           filterable={Object.keys(this.state.wheelOptions)}
           sortable={true} defaultSort={{column: 'weightLbs', direction: 'asc'}}
           itemsPerPage={100} pageButtonLimit={5}>
@@ -84,7 +93,7 @@ var WheelDatabase = React.createClass({
             <Th column="diameterInches">
               <span className="diameterInches-header">
                 <select name="diameterInches" onChange={this.selectChanged} onClick={this.stopPropagation}>
-                  <option value="">Diameter (in.)</option>
+                  <option value="">Diameter</option>
                   {(this.state.wheelOptions.diameterInches || []).map(function (diameterInches) {
                     return <option value={diameterInches} key={diameterInches}>{diameterInches} in.</option>;
                   })}
@@ -94,7 +103,7 @@ var WheelDatabase = React.createClass({
             <Th column="widthInches">
               <span className="widthInches-header">
                 <select name="widthInches" onChange={this.selectChanged} onClick={this.stopPropagation}>
-                  <option value="">Width (in.)</option>
+                  <option value="">Width</option>
                   {(this.state.wheelOptions.widthInches || []).map(function (widthInches) {
                     return <option value={widthInches} key={widthInches}>{widthInches} in.</option>;
                   })}
@@ -104,7 +113,7 @@ var WheelDatabase = React.createClass({
             <Th column="weightLbs">
               <span className="weightLbs-header">
                 <select name="weightLbs" onChange={this.selectChanged} onClick={this.stopPropagation}>
-                  <option value="">Weight (lbs.)</option>
+                  <option value="">Weight</option>
                   {(this.state.wheelOptions.weightLbs || []).map(function (weightLbs) {
                     return <option value={weightLbs} key={weightLbs}>{weightLbs} lbs.</option>;
                   })}
