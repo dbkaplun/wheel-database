@@ -68,7 +68,7 @@ gulp.task('build', ['build-js', 'build-css', 'build-fonts']);
 gulp.task('before-watch', function () { watching = true; });
 gulp.task('watch', ['before-watch', 'build'], function () {
   b.on('update', bundle);
-  gulp.watch(path.join(src, '**/*.less'), ['build-css']);
+  gulp.watch('**/*.less', ['build-css']);
 });
 
 gulp.task('default', ['fetch', 'build']);
